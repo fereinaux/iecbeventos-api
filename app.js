@@ -4,12 +4,12 @@ const cors = require('cors');
 const bot = require('@wppconnect-team/wppconnect');
 const app = express()
 http = require('http');
-const server = http.createServer(app);
-const { Server } = require("socket.io");
 app.use(express.json())
 app.use(cors({
   origin: '*'
 }));
+const server = http.createServer(app);
+const { Server } = require("socket.io");
 const io = new Server(server, {
   cors: {
     origin: "*",
