@@ -17,6 +17,36 @@ const io = new Server(server, {
   },
 });
 
+// add new listener to the http server for requests
+server.on('request', (req, res) => {
+  // check if this is the path we are interested in
+  // if there could be query parameters, then you have to parse them off first
+  if (req.url === "/somePath") {
+    // If desired, set these more specifically such as only specific origins
+    // or CORS only allowed on specific methods
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
+      // add other headers as needed
+    };
+
+    // if pre-flight request, handle it here
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204, headers);
+      res.end();
+      return;
+    } else if (req.method === "GET") {
+      res.writeHead(200, headers);
+      // handle rest of the GET request here
+      // ...
+      res.end();
+    } else {
+      res.writeHead(405);
+      res.end();
+    }
+  }
+});
+
 const port = process.env.PORT || 3000
 
 app.get('', (req, res) => { res.send('ok') })
