@@ -16,8 +16,6 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
-const { executablePath } = require('puppeteer')
-
 
 // add new listener to the http server for requests
 server.on('request', (req, res) => {
