@@ -47,23 +47,6 @@ server.on('request', (req, res) => {
   }
 });
 
-
-const winston = require('winston');
-
-// Optional: Remove all default transports
-bot.defaultLogger.clear(); // Remove all transports
-
-// Create a file transport
-const files = new winston.transports.File({ filename: 'combined.log' });
-bot.defaultLogger.add(files); // Add file transport
-
-// Optinal: create a custom console with error level
-const console = new winston.transports.Console({ level: 'erro' });
-bot.defaultLogger.add(console); // Add console transport
-
-// Optinal: Remove the custom transport
-bot.defaultLogger.remove(console); // Remove console transport
-
 const port = process.env.PORT || 3000
 
 app.get('', (req, res) => { res.send('ok') })
@@ -125,7 +108,14 @@ async function handleSession(session) {
         }
       })
 
+    client.onStreamChange((state) => {
+      if (state == 'DISCONNECTED') {
+        clients = clients.filter(lClient => lClient.session !== session)
+        console.log(clients)
+      }
+    })
     clients.push({ session, client })
+    console.log(clients)
     return client
   } else {
     return client
