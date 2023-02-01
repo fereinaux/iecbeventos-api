@@ -111,7 +111,7 @@ async function handleSession(session) {
           args: ['--no-sandbox',],
           headless: true,
           ignoreHTTPSErrors: true,
-          executablePath: executablePath(),
+          executablePath: 'node_modules\chromium\lib\chromium\chrome-win\chrome.exe',
         },
         catchQR: (base64Qr, asciiQR, attempts, urlCode) => {
           var matches = base64Qr.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
