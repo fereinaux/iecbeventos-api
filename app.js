@@ -16,6 +16,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+const { executablePath } = require('puppeteer')
 
 
 // add new listener to the http server for requests
@@ -117,7 +118,14 @@ async function handleSession(session) {
     client = await bot
       .create({
         session,
-        puppeteerOptions: { headless: true, args: ["--no-sandbox", "--disable-setuid-sandbox"] },
+        puppeteerOptions: {
+          args: ['--no-sandbox',],
+          headless: true,
+          ignoreHTTPSErrors: true,
+
+          // add this
+          executablePath: executablePath(),
+        },
         catchQR: (base64Qr, asciiQR, attempts, urlCode) => {
           var matches = base64Qr.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
             response = {};
