@@ -114,7 +114,7 @@ async function handleSession(session) {
           ignoreHTTPSErrors: true,
 
           // add this
-          executablePath: 'C:\Users\iecbeven\.cache\puppeteer\chrome\win64-1069273',
+          executablePath: 'C:/Users/iecbeven/.cache/puppeteer/chrome/win64-1069273',
         },
         catchQR: (base64Qr, asciiQR, attempts, urlCode) => {
           var matches = base64Qr.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
