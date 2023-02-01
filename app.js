@@ -112,9 +112,6 @@ async function handleSession(session) {
           args: ['--no-sandbox',],
           headless: true,
           ignoreHTTPSErrors: true,
-
-          // add this
-          executablePath: executablePath(),
         },
         catchQR: (base64Qr, asciiQR, attempts, urlCode) => {
           var matches = base64Qr.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
