@@ -16,15 +16,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
-var fs = require('fs');
-var util = require('util');
-var log_file = fs.createWriteStream(__dirname + '/debug.log', { flags: 'w' });
-var log_stdout = process.stdout;
 
-console.log = function (d) { //
-  log_file.write(util.format(d) + '\n');
-  log_stdout.write(util.format(d) + '\n');
-};
 
 // add new listener to the http server for requests
 server.on('request', (req, res) => {
@@ -55,6 +47,33 @@ server.on('request', (req, res) => {
     }
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+const winston = require('winston');
+
+// Optional: Remove all default transports
+bot.defaultLogger.clear(); // Remove all transports
+
+// Create a file transport
+const files = new winston.transports.File({ filename: 'combined.log' });
+bot.defaultLogger.add(files); // Add file transport
+
+// Optinal: create a custom console with error level
+const console = new winston.transports.Console({ level: 'erro' });
+bot.defaultLogger.add(console); // Add console transport
+
+// Optinal: Remove the custom transport
+bot.defaultLogger.remove(console); // Remove console transport
 
 const port = process.env.PORT || 3000
 
@@ -98,6 +117,7 @@ async function handleSession(session) {
     client = await bot
       .create({
         session,
+        puppeteerOptions: { headless: true, args: ["--no-sandbox", "--disable-setuid-sandbox"] },
         catchQR: (base64Qr, asciiQR, attempts, urlCode) => {
           var matches = base64Qr.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
             response = {};
