@@ -102,6 +102,7 @@ server.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
+const { executablePath } = require('puppeteer')
 async function handleSession(session) {
   let client = clients.find(x => x.session == session)?.client
   if (!client) {
@@ -112,6 +113,7 @@ async function handleSession(session) {
           args: ['--no-sandbox',],
           headless: true,
           ignoreHTTPSErrors: true,
+          executablePath: executablePath(),
         },
         catchQR: (base64Qr, asciiQR, attempts, urlCode) => {
           var matches = base64Qr.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
