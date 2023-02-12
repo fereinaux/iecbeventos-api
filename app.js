@@ -87,8 +87,7 @@ var myTokenStore = new bot.tokenStore.FileTokenStore({
   decodeFunction: JSON.parse,
   encodeFunction: JSON.stringify,
   encoding: 'utf8',
-  // fileExtension: '.my.ext',
-  path: './tokens/session' + port,
+  path: './tokens/session',
 });
 
 async function handleSession(session) {
