@@ -90,6 +90,8 @@ async function handleSession(session) {
     client = await bot
       .create({
         session,
+        useChrome: false,
+        autoClose: 0,
         puppeteerOptions: {
           args: ['--no-sandbox',],
           headless: true,
