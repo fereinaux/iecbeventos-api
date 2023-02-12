@@ -107,7 +107,6 @@ async function handleSession(session) {
         },
         catchQR: (base64Qr, asciiQR, attempts, urlCode) => {
           var matches = base64Qr.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-            response = {};
 
           if (matches.length !== 3) {
             return new Error("Invalid input string");
