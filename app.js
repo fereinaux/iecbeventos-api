@@ -83,6 +83,14 @@ server.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
+var myTokenStore = new bot.tokenStore.FileTokenStore({
+  decodeFunction: JSON.parse,
+  encodeFunction: JSON.stringify,
+  encoding: 'utf8',
+  // fileExtension: '.my.ext',
+  path: './tokens/session' + port,
+});
+
 const { executablePath } = require('puppeteer')
 async function handleSession(session) {
   let client = clients.find(x => x.session == session)?.client
@@ -90,6 +98,7 @@ async function handleSession(session) {
     client = await bot
       .create({
         session,
+        tokenStore: myTokenStore,
         useChrome: false,
         autoClose: 0,
         puppeteerOptions: {
