@@ -96,13 +96,13 @@ async function handleSession(session) {
     client = await bot
       .create({
         session,
-        tokenStore: myTokenStore,
         useChrome: false,
         autoClose: 0,
         puppeteerOptions: {
           args: ['--no-sandbox',],
           headless: true,
           ignoreHTTPSErrors: true,
+          userDataDir: `./tokens/${session}`, // or your custom directory
           executablePath: 'node_modules\\chromium\\lib\\chromium\\chrome-win\\chrome.exe',
         },
         catchQR: (base64Qr, asciiQR, attempts, urlCode) => {
