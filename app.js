@@ -91,7 +91,6 @@ var myTokenStore = new bot.tokenStore.FileTokenStore({
   path: './tokens/session' + port,
 });
 
-const { executablePath } = require('puppeteer')
 async function handleSession(session) {
   let client = clients.find(x => x.session == session)?.client
   if (!client) {
@@ -122,11 +121,9 @@ async function handleSession(session) {
     client.onStreamChange((state) => {
       if (state == 'DISCONNECTED') {
         clients = clients.filter(lClient => lClient.session !== session)
-        console.log(clients)
       }
     })
     clients.push({ session, client })
-    console.log(clients)
     return client
   } else {
     return client
