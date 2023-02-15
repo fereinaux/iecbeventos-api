@@ -57,7 +57,7 @@ app.get('/cep/:cep', async (req, res) => {
 
   const info = {
     cep: result.cep,
-    logradour: result.address,
+    logradouro: result.address,
     bairro: result.district,
     localidade: result.city,
     uf: result.state,
