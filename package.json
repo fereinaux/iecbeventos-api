@@ -22,9 +22,9 @@
   "dependencies": {
     "@wppconnect-team/wppconnect": "^1.21.0",
     "chromium": "^3.0.3",
-    "coordenadas-do-cep": "^1.2.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "node-cep-correios": "^1.0.6",
     "puppeteer": "^19.6.3",
     "socket.io": "^4.5.4"
   }

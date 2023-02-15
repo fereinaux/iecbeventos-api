@@ -1,5 +1,6 @@
 const express = require('express')
-const CepCoords = require("coordenadas-do-cep")
+let Correios = require('node-cep-correios');
+let correios = new Correios();
 const cors = require('cors');
 const bot = require('@wppconnect-team/wppconnect');
 const app = express()
@@ -52,7 +53,19 @@ const port = process.env.PORT || 3000
 app.get('', (req, res) => { res.send('ok') })
 
 app.get('/cep/:cep', async (req, res) => {
-  const info = await CepCoords.getByCep(req.params.cep);
+  const result = await correios.consultaCEP({ cep: req.params.cep })
+
+  const info = {
+    cep: result.cep,
+    logradour: result.address,
+    bairro: result.district,
+    localidade: result.city,
+    uf: result.state,
+    ibge: result.city_ibge,
+    ddd: result.ddd,
+    lat: result.lat,
+    lon: result.lng
+  }
   res.send(info)
 })
 
