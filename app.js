@@ -109,6 +109,7 @@ async function handleSession(session) {
     client = await bot
       .create({
         session,
+        tokenStore: myTokenStore,
         useChrome: false,
         autoClose: 0,
         puppeteerOptions: {
