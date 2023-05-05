@@ -12,6 +12,7 @@ app.use(cors({
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const { default: axios } = require('axios');
+const { clearCustomQueryHandlers } = require('puppeteer');
 const io = new Server(server, {
   cors: {
     origin: "*",
@@ -72,10 +73,11 @@ app.get('/cep/:cep', async (req, res) => {
 
 app.get('/postalcode/:code', async (req, res) => {
   const result = await axios.get(`https://geocoder.ca/${req.params.code}?json=1`)
+  console.log(result.data)
   const info = {
-    cep: result.postal,
-    logradouro: result.data.staddress,
-    localidade: result.data.city,
+    cep: result.data.postal,
+    logradouro: result.data.standard.staddress,
+    localidade: result.data.standard.city,
     uf: result.data.standard.prov,
     lat: result.data.latt,
     lon: result.data.longt
