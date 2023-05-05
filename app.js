@@ -76,7 +76,6 @@ app.get('/postalcode/:code', async (req, res) => {
   console.log(result.data)
   const info = {
     cep: result.data.postal,
-    logradouro: result.data.standard.staddress,
     localidade: result.data.standard.city,
     uf: result.data.standard.prov,
     lat: result.data.latt,
