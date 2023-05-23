@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/fereinaux/iecbeventos-api#readme",
   "dependencies": {
-    "@wppconnect-team/wppconnect": "1.22.0",
+    "@wppconnect-team/wppconnect": "1.24.0",
     "chromium": "3.0.3",
     "cors": "2.8.5",
     "axios": "^1.4.0",
