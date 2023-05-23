@@ -131,7 +131,7 @@ async function handleSession(session) {
           args: ['--no-sandbox',],
           headless: true,
           ignoreHTTPSErrors: true,
-          slowMo,
+          slowMo: 3000,
           userDataDir: `./tokens/${session}`, // or your custom directory
           executablePath: 'node_modules\\chromium\\lib\\chromium\\chrome-win\\chrome.exe',
         },
