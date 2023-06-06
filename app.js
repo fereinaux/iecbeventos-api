@@ -50,23 +50,30 @@ server.on('request', (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3500
 
 app.get('', (req, res) => { res.send('ok') })
 
 app.get('/cep/:cep', async (req, res) => {
-  const result = await correios.consultaCEP({ cep: req.params.cep })
+
+  const axiosReq = await axios.get('https://www.cepaberto.com/api/v3/cep?cep=' + req.params.cep.replace('-', ''), {
+    headers: {
+      'Authorization': 'Token token=a30562962004d94271044de19730a8be'
+    }
+  })
+
+  const result = axiosReq.data
 
   const info = {
     cep: result.cep,
-    logradouro: result.address,
-    bairro: result.district,
-    localidade: result.city,
-    uf: result.state,
-    ibge: result.city_ibge,
-    ddd: result.ddd,
-    lat: result.lat,
-    lon: result.lng
+    logradouro: result.logradouro,
+    bairro: result.bairro,
+    localidade: result.cidade.nome,
+    uf: result.estado.sigla,
+    ibge: result.cidade.ibge,
+    ddd: result.cidade.ddd,
+    lat: result.latitude,
+    lon: result.longitude
   }
   res.send(info)
 })
