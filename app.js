@@ -19,6 +19,9 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+const fs = require('fs');
+
+
 
 // add new listener to the http server for requests
 server.on('request', (req, res) => {
@@ -55,27 +58,37 @@ const port = process.env.PORT || 3500
 app.get('', (req, res) => { res.send('ok') })
 
 app.get('/cep/:cep', async (req, res) => {
+  if (fs.existsSync(req.params.cep.replace('-', '') + '.json')) {
+    fs.readFile(req.params.cep.replace('-', '') + '.json', (err, data) => {
+      const info = JSON.parse(data);
+      res.send(info)
+    });
+  } else {
+    axios.get('https://www.cepaberto.com/api/v3/cep?cep=' + req.params.cep.replace('-', ''), {
+      headers: {
+        'Authorization': 'Token token=a30562962004d94271044de19730a8be'
+      }
+    }).then(axiosReq => {
 
-  const axiosReq = await axios.get('https://www.cepaberto.com/api/v3/cep?cep=' + req.params.cep.replace('-', ''), {
-    headers: {
-      'Authorization': 'Token token=a30562962004d94271044de19730a8be'
-    }
-  })
+      const result = axiosReq.data
 
-  const result = axiosReq.data
+      const info = {
+        cep: result.cep,
+        logradouro: result.logradouro,
+        bairro: result.bairro,
+        localidade: result.cidade.nome,
+        uf: result.estado.sigla,
+        ibge: result.cidade.ibge,
+        ddd: result.cidade.ddd,
+        lat: result.latitude,
+        lon: result.longitude
+      }
 
-  const info = {
-    cep: result.cep,
-    logradouro: result.logradouro,
-    bairro: result.bairro,
-    localidade: result.cidade.nome,
-    uf: result.estado.sigla,
-    ibge: result.cidade.ibge,
-    ddd: result.cidade.ddd,
-    lat: result.latitude,
-    lon: result.longitude
+      let data = JSON.stringify(info);
+      fs.writeFileSync(req.params.cep.replace('-', '') + '.json', data);
+      res.send(info)
+    })
   }
-  res.send(info)
 })
 
 app.get('/postalcode/:code', async (req, res) => {
