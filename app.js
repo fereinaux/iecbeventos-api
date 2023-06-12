@@ -104,7 +104,7 @@ app.get('/postalcode/:code', async (req, res) => {
   res.send(info)
 })
 
-app.get('/pagamentos', async (req, res) => {
+app.post('/pagamentos', async (req, res) => {
 
   res.sendStatus(200)
 })
