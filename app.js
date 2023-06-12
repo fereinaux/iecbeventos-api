@@ -69,7 +69,6 @@ app.get('/cep/:cep', async (req, res) => {
         'Authorization': 'Token token=a30562962004d94271044de19730a8be'
       }
     }).then(axiosReq => {
-
       const result = axiosReq.data
 
       const info = {
@@ -90,15 +89,15 @@ app.get('/cep/:cep', async (req, res) => {
     }).catch(() => {
       correios.consultaCEP({ cep: req.params.cep }).then(resultCorreio => {
         const info = {
-          cep: result.cep,
-          logradouro: result.address,
-          bairro: result.district,
-          localidade: result.city,
-          uf: result.state,
-          ibge: result.city_ibge,
-          ddd: result.ddd,
-          lat: result.lat,
-          lon: result.lng
+          cep: resultCorreio.cep,
+          logradouro: resultCorreio.address,
+          bairro: resultCorreio.district,
+          localidade: resultCorreio.city,
+          uf: resultCorreio.state,
+          ibge: resultCorreio.city_ibge,
+          ddd: resultCorreio.ddd,
+          lat: resultCorreio.lat,
+          lon: resultCorreio.lng
         }
         let data = JSON.stringify(info);
         fs.writeFileSync(req.params.cep.replace('-', '') + '.json', data);
