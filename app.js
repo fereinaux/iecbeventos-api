@@ -87,6 +87,23 @@ app.get('/cep/:cep', async (req, res) => {
       let data = JSON.stringify(info);
       fs.writeFileSync(req.params.cep.replace('-', '') + '.json', data);
       res.send(info)
+    }).catch(() => {
+      correios.consultaCEP({ cep: req.params.cep }).then(resultCorreio => {
+        const info = {
+          cep: result.cep,
+          logradouro: result.address,
+          bairro: result.district,
+          localidade: result.city,
+          uf: result.state,
+          ibge: result.city_ibge,
+          ddd: result.ddd,
+          lat: result.lat,
+          lon: result.lng
+        }
+        let data = JSON.stringify(info);
+        fs.writeFileSync(req.params.cep.replace('-', '') + '.json', data);
+        res.send(info)
+      })
     })
   }
 })
