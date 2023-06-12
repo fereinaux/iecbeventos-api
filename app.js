@@ -121,7 +121,7 @@ app.get('/postalcode/:code', async (req, res) => {
 })
 
 app.post('/pagamentos', async (req, res) => {
-
+  console.log(req.body)
   res.sendStatus(200)
 })
 
