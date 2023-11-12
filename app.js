@@ -12,7 +12,6 @@ app.use(cors({
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const { default: axios } = require('axios');
-const { clearCustomQueryHandlers } = require('puppeteer');
 const io = new Server(server, {
   cors: {
     origin: "*",
@@ -57,7 +56,7 @@ const port = process.env.PORT || 3500
 
 app.get('', (req, res) => { res.send('ok') })
 
-app.get('/cep/:cep', async (req, res) => {
+app.get('api/cep/:cep', async (req, res) => {
   if (fs.existsSync(req.params.cep.replace('-', '') + '.json')) {
     fs.readFile(req.params.cep.replace('-', '') + '.json', (err, data) => {
       const info = JSON.parse(data);
@@ -107,7 +106,7 @@ app.get('/cep/:cep', async (req, res) => {
   }
 })
 
-app.get('/postalcode/:code', async (req, res) => {
+app.get('api/postalcode/:code', async (req, res) => {
   const result = await axios.get(`https://geocoder.ca/${req.params.code}?json=1`)
   console.log(result.data)
   const info = {
